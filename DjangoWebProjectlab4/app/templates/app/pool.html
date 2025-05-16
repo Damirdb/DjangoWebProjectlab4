@@ -1,0 +1,98 @@
+﻿{% extends "app/layout.html" %}
+{% load static %}
+
+{% block content %}
+<h1>Обратная связь</h1>
+<p>Поделитесь вашим мнением о нашем сайте!</p>
+
+<form method="post" id="feedbackForm">
+    {% csrf_token %}
+
+    <!-- Текстовые поля -->
+    <div>
+        <label for="name">Ваше имя:</label>
+        <input type="text" id="name" name="name" required class="form-input">
+    </div>
+
+    <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required class="form-input">
+    </div>
+
+    <!-- Радиокнопки (оценка сайта) -->
+    <div>
+        <p>Оцените наш сайт:</p>
+        <input type="radio" id="rating_5" name="rating" value="5" required>
+        <label for="rating_5">5 (Отлично)</label>
+
+        <input type="radio" id="rating_4" name="rating" value="4">
+        <label for="rating_4">4 (Хорошо)</label>
+
+        <input type="radio" id="rating_3" name="rating" value="3">
+        <label for="rating_3">3 (Удовлетворительно)</label>
+
+        <input type="radio" id="rating_2" name="rating" value="2">
+        <label for="rating_2">2 (Плохо)</label>
+
+        <input type="radio" id="rating_1" name="rating" value="1">
+        <label for="rating_1">1 (Ужасно)</label>
+    </div>
+
+    <!-- Чекбоксы (интересы) -->
+    <div>
+        <p>Что вам интересно на сайте?</p>
+        <input type="checkbox" id="interest_stars" name="interests" value="stars">
+        <label for="interest_stars">Звёзды</label>
+
+        <input type="checkbox" id="interest_planets" name="interests" value="planets">
+        <label for="interest_planets">Планеты</label>
+
+        <input type="checkbox" id="interest_galaxies" name="interests" value="galaxies">
+        <label for="interest_galaxies">Галактики</label>
+    </div>
+
+    <!-- Выпадающий список -->
+    <div>
+        <label for="source">Как вы узнали о нас?</label>
+        <select id="source" name="source" class="form-input">
+            <option value="search">Поисковик (Google, Яндекс)</option>
+            <option value="social">Соцсети</option>
+            <option value="friend">От друзей</option>
+        </select>
+    </div>
+
+    <!-- Текстовое поле (комментарий) -->
+    <div>
+        <label for="comment">Ваши пожелания:</label>
+        <textarea id="comment" name="comment" rows="4" class="form-input"></textarea>
+    </div>
+
+    <button type="submit" id="submitBtn">Отправить</button>
+</form>
+
+<script>
+    // Изменение цвета кнопки при наведении
+    document.getElementById('submitBtn').addEventListener('mouseover', function () {
+        this.style.color = '#ff5722'; // Оранжевый
+    });
+
+    document.getElementById('submitBtn').addEventListener('mouseout', function () {
+        this.style.color = ''; // Возврат к исходному
+    });
+
+    // Изменение фона поля ввода при фокусе
+    
+
+</script>
+
+{% if submitted %}
+<h2>Спасибо за ваш отзыв!</h2>
+<p>Имя: {{ name }}</p>
+<p>Email: {{ email }}</p>
+<p>Оценка: {{ rating }}/5</p>
+<p>Интересы: {{ interests|join:", " }}</p>
+<p>Источник: {{ source }}</p>
+<p>Комментарий: {{ comment }}</p>
+{% endif %}
+
+{% endblock %}
